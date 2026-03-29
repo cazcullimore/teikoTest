@@ -52,7 +52,7 @@ Report which cell populations have a significant difference in relative frequenc
    
     subject_condition = "melanoma"
     treatment = "miraclib"
-    conn = sqlite3.connect(SQL_DATABASE_PATH) # should probably get this at t=0
+    conn = sqlite3.connect(SQL_DATABASE_PATH) # 
     df = pd.read_sql_query(f"""SELECT subjects.subject,response,{','.join(CELL_TYPES)} FROM subjects JOIN samples ON subjects.subject = samples.subject
                                 WHERE condition = '{subject_condition}' AND
                                 treatment = '{treatment}' AND
