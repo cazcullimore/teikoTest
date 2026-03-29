@@ -3,4 +3,10 @@ name = "teikoTest"
 version = "0.0.1"
 dependencies = [
   "pandas",
+  "matplotlib",
+  "seaborn",
+  "scipy",
+  "statannotations",
 ]
+[tool.setuptools]
+py-modules = ["config", "pipeline", "load_data"]
