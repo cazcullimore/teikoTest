@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .scroll-box {
+            height: 200px;        /* fixed height */
+            overflow-y: scroll;  /* vertical scroll */
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Data</h2>
+<div class="scroll-box">
+        {{ table|safe }}
+</div>
+
+
+<!-- </body>
+<form method="POST">
+
+    <label>
+        <input type="checkbox" name="fruits" value="apple"> Apple
+    </label><br>
+
+    <label>
+        <input type="checkbox" name="fruits" value="banana"> Banana
+    </label><br>
+
+    <label>
+        <input type="checkbox" name="fruits" value="orange"> Orange
+    </label><br>
+
+    <button type="submit">Submit</button>
+</form> -->
+
+<form method="POST">
+{% for col in option_dict %}
+    <h3>{{ col }}</h3>
+        {% for option in option_dict[col] %}
+            <label>
+                <input type="radio" name="{{ col }}" value="{{ option }}"
+                    onchange="this.form.submit()"
+                    {% if selected[col] == option %}checked{% endif %}>
+                {{ option }}
+            </label><br>
+        {% endfor %}
+
+{% endfor %}
+</form>
+
+
+{% if selected %}
+    <p>You selected: {{ selected }}</p>
+{% endif %}
+
+<h3>Selected:</h3>
+<ul>
+{% for item in selected %}
+    <li>{{ item }}</li>
+{% endfor %}
+</ul>
+</html>

@@ -37,6 +37,7 @@ def pivot_summary_table(df, pivot_on,):
     df_summary["total_count"] = totals
     return df_summary
 
+
 def part3_data_analysis():
     """As the trial progresses, Bob wants to identify patterns that might predict treatment response and
       share those findings with his colleague, Yah D’yada. Using the data reported in the summary table,
@@ -97,11 +98,11 @@ Report which cell populations have a significant difference in relative frequenc
 
     annotator.set_pvalues_and_annotate(pop_stats)
 
-    plt.savefig("Bonferroni-corrected_p-values_between_responders_and_nonresponders.png")
+    plt.savefig("BH-corrected_p-values_between_responders_and_nonresponders.png")
     plt.show()
     conn.close()
-    plt.show()
-    conn.close()
+
+
 
 if __name__ == "__main__":
     df_summary = part2_make_summary_table()

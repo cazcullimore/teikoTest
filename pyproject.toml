@@ -7,6 +7,8 @@ dependencies = [
   "seaborn",
   "scipy",
   "statannotations",
+  "Flask",
+  "requests",
 ]
 [tool.setuptools]
 py-modules = ["config", "pipeline", "load_data"]

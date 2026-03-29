@@ -1,6 +1,6 @@
 import pandas as pd
 import sqlite3
-from config import CSV_DATA_PATH, SQL_DATABASE_PATH
+from config import CSV_DATA_PATH, SAMPLE_TABLE_COLS, SQL_DATABASE_PATH, SUBJECT_TABLE_COLS
 
 
 def make_db():
@@ -9,10 +9,9 @@ def make_db():
     cursor = conn.cursor()
 
 
-    patient_table_cols = ["subject", "project", "condition", "age", "sex", "treatment", "response"]
     # for table in 
     df = pd.read_csv(CSV_DATA_PATH)
-    patient_info = df[patient_table_cols].drop_duplicates()# extract patient info 
+    patient_info = df[SUBJECT_TABLE_COLS].drop_duplicates()# extract patient info 
     patient_info["response"] = patient_info["response"] == "yes" # convert bool
     
     # cursor.execute("""
@@ -30,19 +29,11 @@ def make_db():
 
     cursor.execute("CREATE INDEX subject_index ON subjects(subject)")
 
-    sample_table_cols = ["sample", 
-                         "subject", 
-                         "sample_type", 
-                         "time_from_treatment_start", 
-                         "b_cell", 
-                         "cd8_t_cell", 
-                         "cd4_t_cell", 
-                         "nk_cell", 
-                         "monocyte"]
+    
 
     # extract sample info
     # extract sample metadata - will combine fofr now
-    sample_info = df[sample_table_cols].drop_duplicates()
+    sample_info = df[SAMPLE_TABLE_COLS].drop_duplicates()
 
     sample_info.to_sql("samples", conn, if_exists='replace', index=False)
 
