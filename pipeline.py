@@ -41,9 +41,9 @@ def make_boxplot(df):
     pop_stats = {}
 
     for cell_pop in pivoted["population"].unique():
-        data = df[[cell_pop, "response"]]
+        data = pivoted[pivoted["population"] == cell_pop]
 
-        stat, p_dist = stats.mannwhitneyu(data.loc[data["response"] == 'yes', cell_pop], data.loc[data["response"] == 'no', cell_pop], alternative='two-sided')
+        stat, p_dist = stats.mannwhitneyu(data.loc[data["response"] == 'yes', "proportion"], data.loc[data["response"] == 'no', "proportion"], alternative='two-sided')
 
         pop_stats[cell_pop] =  p_dist
 
@@ -116,24 +116,14 @@ def part2_make_summary_table():
 
 
 def part3_data_analysis():
-    subject_condition = "melanoma"
-    treatment = "miraclib"
-    conn = sqlite3.connect(SQL_DATABASE_PATH) 
-    df = pd.read_sql_query(f"""SELECT subjects.subject,response,{','.join(CELL_TYPES)} FROM subjects JOIN samples ON subjects.subject = samples.subject
-                                WHERE condition = '{subject_condition}' AND
-                                treatment = '{treatment}' AND
-                                time_from_treatment_start = 0 AND
-                                sample_type = "PBMC"
-                                
-                                """,conn,)
-
+    df = query_sql("*", {"sample_type": "PBMC",  "time_from_treatment_start":0, "treatment": "miraclib", "condition": "melanoma"})
     make_boxplot(df)
-    conn.close()
+
 
 
 def part4_filter_stats():
 
-    mel_mirc_PBMC = query_sql("*", {"sample_type": "PBMC",  "time_from_treatment_start":0, "treatment": "miraclib"})
+    mel_mirc_PBMC = query_sql("*", {"sample_type": "PBMC",  "time_from_treatment_start":0, "treatment": "miraclib", "condition": "melanoma"})
     mel_mirc_PBMC.to_csv("mel_mirc_PBMC.csv")
     get_filter_stats(mel_mirc_PBMC, "project", "sample").to_csv("samples_per_project_mel_mirc_PBMC.csv")
     get_filter_stats(mel_mirc_PBMC, "response", "subject").to_csv("subjects_per_response_mel_mirc_PBMC.csv")
@@ -145,7 +135,5 @@ if __name__ == "__main__":
     df_summary = part2_make_summary_table()
     df_summary.to_csv("summary_table.csv")
 
-
-    output = part3_data_analysis()
-
+    part3_data_analysis()
     part4_filter_stats()

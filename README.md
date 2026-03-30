@@ -35,5 +35,6 @@ This allows us to reduce redundant columns of the patient metadata and reduces t
 This project has nice conceptual blocks that I chose to reflect in my code. By separating the data manipulation code and HTML interface, it forces me to make functions that only handle a single task. It also makes all the functions in the file related to a single task. I could have divided my pipeline.py into multiple files to separate the SQL and pandas code, but this project is small enough that it's unneccessary.
 
 
-
+## Part 3 Statistical Analysis Results
+When I correct for multiple tests, nothing is significant.
 
