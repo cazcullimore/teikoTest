@@ -36,5 +36,5 @@ This project has nice conceptual blocks that I chose to reflect in my code. By s
 
 
 ## Part 3 Statistical Analysis Results
-When I correct for multiple tests, nothing is significant.
+Nothing is significant when looking at proportions. Some populations are close if looking at raw counts.
 
