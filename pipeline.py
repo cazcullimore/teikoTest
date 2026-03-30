@@ -60,14 +60,14 @@ def make_boxplot(df):
     annotator = Annotator(bp, [((elt, 'no',), (elt, 'yes')) for elt in pop_stats.index], data=pivoted, x="population", y="proportion", hue="response")
     annotator.configure(text_format="simple", loc="outside")
 
-    annotator.set_pvalues_and_annotate(pop_stats)
+    annotator.set_pvalues_and_annotate(pop_stats.to_list())
 
     plt.savefig("responder_nonresponder_boxplot.png")
    
     return fig
 
 def get_filter_stats(df, cat1, cat2):
-    if df[cat2].dtype == "object":
+    if df[cat2].dtype in ("object", "str"):
         output = df.groupby(cat1)[cat2].nunique()
     else:
         output = df.groupby(cat1)[cat2].mean()
