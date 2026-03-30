@@ -12,7 +12,7 @@ def make_db():
     # for table in 
     df = pd.read_csv(CSV_DATA_PATH)
     patient_info = df[SUBJECT_TABLE_COLS].drop_duplicates()# extract patient info 
-    patient_info["response"] = patient_info["response"] == "yes" # convert bool
+
     
     # cursor.execute("""
     #     CREATE TABLE subjects (
@@ -38,7 +38,7 @@ def make_db():
     sample_info.to_sql("samples", conn, if_exists='replace', index=False)
 
     cursor.execute("CREATE INDEX sample_index ON samples(sample)")
-    cursor.execute("CREATE INDEX patient_index ON samples(subject)")
+    cursor.execute("CREATE INDEX subject_index ON samples(subject)")
     
 
 

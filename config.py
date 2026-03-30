@@ -38,6 +38,6 @@ DASHBOARD_BUTTON_OPTION_COLS = ["project",
                                "treatment", 
                                "response",
                                "time_from_treatment_start",
-                               "sample_type", ] #+ CELL_TYPES
+                               "sample_type", 
+                               "sex"] #+ CELL_TYPES
 
-DASHBOARD_BOX_OPTION_COLS = []

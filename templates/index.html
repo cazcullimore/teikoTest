@@ -1,65 +1,97 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <style>
         .scroll-box {
-            height: 200px;        /* fixed height */
-            overflow-y: scroll;  /* vertical scroll */
+            height: 200px;
+            /* fixed height */
+            overflow-y: scroll;
+            /* vertical scroll */
             border: 1px solid black;
             padding: 10px;
         }
+        .flex-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .column {
+            flex: 1;          /* each column takes equal space */
+            min-width: 0;     /* prevents overflow */
+        }
     </style>
 </head>
+
 <body>
+    <div style="display: flex; gap: 20px; align-items: flex-start;">
+        <div class="column">
+            <h2>Filter Data</h2>
+            <div class="scroll-box">
+                {{ table|safe }}
+            </div>
+            <div>
+                <fieldset>
+                    <form method="POST">
+                        {% for col in option_dict %}
+                        <h3>{{ col }}</h3>
+                        {% for option in option_dict[col] %}
+                        <label>
+                            <input type="radio" name="{{ col }}" value="{{ option }}" onchange="this.form.submit()" {%
+                                if selected[col]==option %}checked{% endif %}>
+                            {{ option }}
+                        </label><br>
+                        {% endfor %}
 
-<h2>Data</h2>
-<div class="scroll-box">
-        {{ table|safe }}
-</div>
+                        {% endfor %}
 
+                </fieldset>
+            </div>
+        </div>
 
-<!-- </body>
-<form method="POST">
-
-    <label>
-        <input type="checkbox" name="fruits" value="apple"> Apple
-    </label><br>
-
-    <label>
-        <input type="checkbox" name="fruits" value="banana"> Banana
-    </label><br>
-
-    <label>
-        <input type="checkbox" name="fruits" value="orange"> Orange
-    </label><br>
-
-    <button type="submit">Submit</button>
-</form> -->
-
-<form method="POST">
-{% for col in option_dict %}
-    <h3>{{ col }}</h3>
-        {% for option in option_dict[col] %}
-            <label>
-                <input type="radio" name="{{ col }}" value="{{ option }}"
-                    onchange="this.form.submit()"
-                    {% if selected[col] == option %}checked{% endif %}>
-                {{ option }}
-            </label><br>
-        {% endfor %}
-
-{% endfor %}
-</form>
+        <div class="column">
+            <h2>Box Plots</h2>
+            <div >
+                {{ box_html|safe }}
+            </div>
+        </div>
+        <div class="column">
+             <h2>Get Stats on Filtered Data</h2>
+            <fieldset>
+               
 
 
-{% if selected %}
-    <p>You selected: {{ selected }}</p>
-{% endif %}
+                <h3>for each {{ filter_stat1 }} how many {{ filter_stat2 }}(s) are there?</h3>
+                {{ filter_stat_output | safe }}
+                 <div style="display: flex; gap: 20px; align-items: flex-start;">
+                <div>
+                <fieldset>
+                    <h3>category 1</h3>
+                    {% for option in stat1_columns %}
+                    <label>
+                        <input type="radio" name="filter_stat1" value="{{ option }}" onchange="this.form.submit()" {% if
+                            filter_stat1==option %}checked{% endif %}>
+                        {{ option }}
+                    </label><br>
+                    {% endfor %}
+                </fieldset>
+                </div>
+                <div>
+                <fieldset>
+                    <h3>category 2</h3>
+                    {% for option in stat2_columns %}
+                    <label>
+                        <input type="radio" name="filter_stat2" value="{{ option }}" onchange="this.form.submit()" {% if
+                            filter_stat2==option %}checked{% endif %}>
+                        {{ option }}
+                    </label><br>
+                    {% endfor %}
+                </fieldset>
+                </div>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+</body>
 
-<h3>Selected:</h3>
-<ul>
-{% for item in selected %}
-    <li>{{ item }}</li>
-{% endfor %}
-</ul>
 </html>
